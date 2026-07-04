@@ -31,3 +31,9 @@
 - API user: wazuh-wui
 - Deploy method: Docker Compose
 
+
+### P2: Agent Deployment
+- windows-agent (100.89.183.81): active ✅
+- webserver-agent (100.64.139.72): active ✅
+- Log flow verified ✅
+
