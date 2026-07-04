@@ -22,3 +22,12 @@
 - Wazuh Agent version: 4.7.5
 - Status: active ✅
 
+
+### P1-T01,T02,T03: Wazuh Deploy
+- Wazuh Manager: v4.7.5 - active ✅
+- Wazuh Indexer: port 9200 - active ✅
+- Wazuh Dashboard: port 443 - active ✅
+- API: https://localhost:55000 - OK ✅
+- API user: wazuh-wui
+- Deploy method: Docker Compose
+
