@@ -15,3 +15,10 @@
 - Docker: 29.1.3
 - Docker Compose: 1.29.2
 - Service: active (running)
+
+### P2-T01: Windows Agent
+- Agent name: windows-agent
+- Agent IP: 100.89.183.81
+- Wazuh Agent version: 4.7.5
+- Status: active ✅
+
