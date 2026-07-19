@@ -1,0 +1,36 @@
+<group name="ssh_brute_force,authentication_failures,">
+
+  <!-- SSH Brute Force Medium - 5 lần/60s -->
+  <rule id="100001" level="10" frequency="5" timeframe="60">
+    <if_matched_sid>5710</if_matched_sid>
+    <same_source_ip />
+    <description>SSH Brute Force MEDIUM: $(frequency) failed logins in 60s from $(srcip) targeting user $(dstuser) on $(agent.name)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>brute_force,incident_candidate,</group>
+  </rule>
+
+  <!-- SSH Brute Force High - 10 lần/60s -->
+  <rule id="100002" level="13" frequency="10" timeframe="60">
+    <if_matched_sid>5710</if_matched_sid>
+    <same_source_ip />
+    <description>SSH Brute Force HIGH: $(frequency) failed logins in 60s from $(srcip) targeting user $(dstuser) on $(agent.name)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>brute_force,incident_candidate,</group>
+  </rule>
+
+  <!-- SSH Brute Force Critical - 20 lần/60s -->
+  <rule id="100003" level="15" frequency="20" timeframe="60">
+    <if_matched_sid>5710</if_matched_sid>
+    <same_source_ip />
+    <description>SSH Brute Force CRITICAL: $(frequency) failed logins in 60s from $(srcip) targeting user $(dstuser) on $(agent.name)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>brute_force,incident_candidate,</group>
+  </rule>
+
+</group>

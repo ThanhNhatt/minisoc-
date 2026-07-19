@@ -1,0 +1,114 @@
+<!--
+  MiniSOC Project - Custom Local Rules
+  Mapped to: Demo Scenarios sheet (8 kich ban tan cong) - MITRE ATT&CK
+-->
+
+<group name="local,syslog,web,attack,">
+
+  <!-- SCENARIO 1: SSH Brute Force - T1110.001 -->
+  <rule id="100010" level="10" frequency="5" timeframe="120">
+    <if_matched_sid>5710</if_matched_sid>
+    <same_source_ip />
+    <description>SSH brute force detected: 5 failed logins in 120s from same IP</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+  </rule>
+
+  <!-- SCENARIO 2: SQL Injection - T1190 (dung lai rule built-in) -->
+  <rule id="100020" level="12">
+    <if_matched_group>attack</if_matched_group>
+    <description>[MiniSOC-Demo2] Web attack confirmed via built-in Wazuh ruleset</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+  </rule>
+
+  <!-- SCENARIO 3: Web Shell Upload - T1505.003 -->
+  <rule id="100030" level="13">
+    <if_sid>31100</if_sid>
+    <url>cmd=|shell=|eval\(|base64_decode|system\(|passthru\(</url>
+    <description>Possible web shell execution attempt via HTTP request</description>
+    <mitre>
+      <id>T1505.003</id>
+    </mitre>
+  </rule>
+
+  <rule id="100031" level="13">
+    <if_sid>550</if_sid>
+    <field name="file">\.php$|\.jsp$|\.asp$|\.aspx$</field>
+    <description>New/modified web shell candidate file detected in web root</description>
+    <mitre>
+      <id>T1505.003</id>
+    </mitre>
+  </rule>
+
+  <!-- SCENARIO 4: Malware Execution - T1204 (Windows Defender detection) -->
+  <rule id="100040" level="12">
+    <if_group>windows</if_group>
+    <field name="win.system.eventID">^1116$|^1117$</field>
+    <field name="win.system.providerName">Microsoft-Windows-Windows Defender</field>
+    <description>Windows Defender detected/handled malware (possible EICAR test or real threat)</description>
+    <mitre>
+      <id>T1204</id>
+    </mitre>
+  </rule>
+
+  <!-- SCENARIO 5: FIM - File Tampering - T1565.001 -->
+  <rule id="100050" level="10">
+    <if_sid>550,553,554</if_sid>
+    <field name="file" type="pcre2">(?i)(system32|/etc/passwd|/etc/shadow|/var/www)</field>
+    <description>Critical system file modified/created/deleted</description>
+    <mitre>
+      <id>T1565.001</id>
+    </mitre>
+  </rule>
+
+  <!-- SCENARIO 6: Ransomware Simulation - T1486 -->
+  <rule id="100060" level="15" frequency="10" timeframe="60">
+    <if_matched_sid>550</if_matched_sid>
+    <same_source_ip />
+    <description>Possible ransomware activity: mass file changes detected (10+ in 60s)</description>
+    <mitre>
+      <id>T1486</id>
+    </mitre>
+  </rule>
+
+  <rule id="100061" level="15" frequency="10" timeframe="60">
+    <if_matched_sid>554</if_matched_sid>
+    <same_source_ip />
+    <description>Possible ransomware activity: mass file changes detected (10+ in 60s)</description>
+    <mitre>
+      <id>T1486</id>
+    </mitre>
+  </rule>
+
+  <!-- SCENARIO 7: Insider Threat / Priv Esc - T1548 -->
+  <rule id="100070" level="12">
+    <if_sid>5402</if_sid>
+    <description>Privilege escalation attempt: sudo/runas abuse detected</description>
+    <mitre>
+      <id>T1548</id>
+    </mitre>
+  </rule>
+
+  <rule id="100071" level="13">
+    <if_sid>100070</if_sid>
+    <match>/etc/sudoers</match>
+    <description>Sudoers file modified - possible unauthorized privilege change</description>
+    <mitre>
+      <id>T1548</id>
+    </mitre>
+  </rule>
+
+  <!-- SCENARIO 8: Phishing Simulation - T1566 -->
+  <rule id="100080" level="10">
+    <if_sid>31100</if_sid>
+    <url type="pcre2">(?i)(login|verify|update|secure).*(account|password)</url>
+    <description>Possible phishing link click detected in web/proxy log</description>
+    <mitre>
+      <id>T1566</id>
+    </mitre>
+  </rule>
+
+</group>
